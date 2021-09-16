@@ -8,23 +8,36 @@ import java.util.Date;
  */
 public class Compensation {
 
-    private Employee employee;
-    private int salary;
+    private String id;
+    private String employeeId;
+    private double salary;
     private Date effectiveDate;
 
-    public Employee getEmployee() {
-        return employee;
+    public Compensation() {
+        setEffectiveDate(new Date());
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public String getId() {
+        return id;
     }
 
-    public int getSalary() {
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 

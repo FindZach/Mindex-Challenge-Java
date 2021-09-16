@@ -1,5 +1,17 @@
 [
   {
+    "employeeId" : "16a596ae-edd3-4847-99fe-c4518e82c76f",
+    "firstName" : "Zachary",
+    "lastName" : "Smith",
+    "position" : "Developer I",
+    "department" : "Engineering",
+    "directReports" : [
+      {
+        "employeeId" : "16a596ae-edd3-4847-99fe-c4518e82c86f"
+      }
+    ]
+  },
+  {
     "employeeId" : "16a596ae-edd3-4847-99fe-c4518e82c86f",
     "firstName" : "John",
     "lastName" : "Lennon",

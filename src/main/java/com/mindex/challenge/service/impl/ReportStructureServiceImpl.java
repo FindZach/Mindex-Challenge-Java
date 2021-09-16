@@ -7,8 +7,6 @@ import com.mindex.challenge.service.ReportStructureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 /**
  * @author Zach S <zach@findzach.com>
  * @since 9/15/2021
@@ -16,10 +14,10 @@ import java.util.Optional;
 @Service
 public class ReportStructureServiceImpl implements ReportStructureService {
 
-    @Autowired
     private EmployeeService employeeService;
 
 
+    @Autowired
     public ReportStructureServiceImpl(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
@@ -34,18 +32,15 @@ public class ReportStructureServiceImpl implements ReportStructureService {
     @Override
     public ReportingStructure retrieve(String employeeId) {
         //Verify employee w/employeeId exists
-        Optional<Employee> employeeOptional = Optional.ofNullable(employeeService.read(employeeId));
-        if (employeeOptional.isPresent()) {
-            ReportingStructure reportingStructure = new ReportingStructure();
-            //We've already asked our Repo for this Employee, no need to ask EmployeeService twice.
-            reportingStructure.setEmployee(employeeOptional.get());
+        Employee employee = employeeService.read(employeeId);
 
-            //Calls a method that calculates the total reports the employee has
-            reportingStructure.setNumberOfReports(calculateTotalReports(employeeOptional.get()));
-            return reportingStructure;
-        } else {
-            throw new RuntimeException("Invalid employeeId: " + employeeId);
-        }
+        ReportingStructure reportingStructure = new ReportingStructure();
+
+        reportingStructure.setEmployee(employee);
+
+        //Call the method that calculates the total reports the employee has
+        reportingStructure.setNumberOfReports(calculateTotalReports(employee));
+        return reportingStructure;
 
     }
 
@@ -53,13 +48,14 @@ public class ReportStructureServiceImpl implements ReportStructureService {
     public int calculateTotalReports(Employee employee) {
         if (employee != null) {
             int directReportsAmount = directReportsExist(employee) ? employee.getDirectReports().size() : 0;
-            return directReportsAmount + (directReportsExist(employee) ? employee.getDirectReports().stream().mapToInt(otherEmployee -> getReportsFromEmployeeId(otherEmployee.getEmployeeId())).sum(): 0);
+            return directReportsAmount + (directReportsExist(employee) ? employee.getDirectReports().stream().mapToInt(otherEmployee -> getReportsFromEmployeeId(otherEmployee.getEmployeeId())).sum() : 0);
         }
         return -1;
     }
 
     /**
      * Simple helper method to verify if the employee object has a valid DirectReport list
+     *
      * @param employee
      * @return
      */
@@ -69,6 +65,7 @@ public class ReportStructureServiceImpl implements ReportStructureService {
 
     /**
      * A helper method to retrieve the Employee and check if it has directReports
+     *
      * @return
      */
     private int getReportsFromEmployeeId(String employeeId) {

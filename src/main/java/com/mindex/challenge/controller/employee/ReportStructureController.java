@@ -23,7 +23,4 @@ public class ReportStructureController {
     public ReportingStructure retrieveReportStructure(@PathVariable String employeeId) {
         return reportStructureService.retrieve(employeeId);
     }
-
-
-
 }
