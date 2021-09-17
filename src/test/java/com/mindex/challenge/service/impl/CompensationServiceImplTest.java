@@ -57,10 +57,10 @@ public class CompensationServiceImplTest {
         assertEquals(100_000, savedCompensation.getSalary(), 0);
         assertEquals(employeeId, savedCompensation.getEmployeeId());
 
-        List<Compensation> compensationList = Arrays.asList(restTemplate.getForEntity(compensationDataUrl, Compensation[].class, employeeId).getBody());
+        Compensation loadedComp = restTemplate.getForEntity(compensationDataUrl, Compensation.class, employeeId).getBody();
 
-        assertNotNull(compensationList);
-        assertEquals(1, compensationList.size());
+        assertNotNull(loadedComp);
+        assertEquals(100_000, loadedComp.getSalary(), 0);
 
     }
 
