@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -16,6 +18,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Override
+    public Set<Employee> findAll() {
+        LOG.debug("Retrieving set of employees");
+
+        return Set.copyOf(employeeRepository.findAll());
+    }
+
+    @Override
+    public Employee findById(String id) {
+        return employeeRepository.findByEmployeeId(id);
+    }
 
     @Override
     public Employee create(Employee employee) {
@@ -28,16 +42,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee read(String id) {
-        LOG.debug("Creating employee with id [{}]", id);
+    public void delete(Employee employee) {
+        LOG.debug("Deleting employee with ID [{}]", employee);
 
-        Employee employee = employeeRepository.findByEmployeeId(id);
+        employeeRepository.delete(employee);
+    }
 
-        if (employee == null) {
-            throw new RuntimeException("Invalid employeeId: " + id);
+    @Override
+    public Employee updateWithId(String id, Employee employee) {
+        LOG.debug("Updating employee [{}]", employee);
+
+        if (employeeRepository.findByEmployeeId(id) != null) {
+            return employeeRepository.save(employee);
         }
-
-        return employee;
+        return null;
     }
 
     @Override
@@ -45,5 +63,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         LOG.debug("Updating employee [{}]", employee);
 
         return employeeRepository.save(employee);
+    }
+
+    /**
+     * Deletes Object , finds with ID
+     *
+     * @param id - The ID of the object
+     * @return - True if deleted, false if no record exists
+     */
+    @Override
+    public boolean deleteById(String id) {
+        if (employeeRepository.findByEmployeeId(id) != null) {
+            employeeRepository.deleteById(id);
+            return true;
+        } else return false;
     }
 }

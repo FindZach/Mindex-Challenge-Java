@@ -32,13 +32,13 @@ public class ReportStructureServiceImpl implements ReportStructureService {
     @Override
     public ReportingStructure retrieve(String employeeId) {
         //Verify employee w/employeeId exists
-        Employee employee = employeeService.read(employeeId);
+        Employee employee = employeeService.findById(employeeId);
 
         ReportingStructure reportingStructure = new ReportingStructure();
 
         reportingStructure.setEmployee(employee);
 
-        //Call the method that calculates the total reports the employee has
+        //Call the method that calculates the total the employee has
         reportingStructure.setNumberOfReports(calculateTotalReports(employee));
         return reportingStructure;
 
@@ -47,8 +47,12 @@ public class ReportStructureServiceImpl implements ReportStructureService {
     @Override
     public int calculateTotalReports(Employee employee) {
         if (employee != null) {
+            //Get size of direct Employee
             int directReportsAmount = directReportsExist(employee) ? employee.getDirectReports().size() : 0;
-            return directReportsAmount + (directReportsExist(employee) ? employee.getDirectReports().stream().mapToInt(otherEmployee -> getReportsFromEmployeeId(otherEmployee.getEmployeeId())).sum() : 0);
+
+            //Combine size of Direct Employee + The Employees Direct Reports
+            return directReportsAmount + (directReportsExist(employee) ?
+                    employee.getDirectReports().stream().mapToInt(otherEmployee -> getReportsFromEmployeeId(otherEmployee.getEmployeeId())).sum() : 0);
         }
         return -1;
     }
@@ -69,10 +73,25 @@ public class ReportStructureServiceImpl implements ReportStructureService {
      * @return
      */
     private int getReportsFromEmployeeId(String employeeId) {
-        Employee employee = employeeService.read(employeeId);
+        Employee employee = employeeService.findById(employeeId);
 
         if (employee != null) {
-            return employee.getDirectReports() != null ? employee.getDirectReports().size() : 0;
+            int count = 0;
+
+            if (employee.getDirectReports() != null) {
+
+                for (Employee directReports : employee.getDirectReports()) {
+                    Employee directReportEmployee = employeeService.findById(directReports.getEmployeeId());
+                    if (directReportEmployee.getDirectReports() != null) {
+                        count += directReportEmployee.getDirectReports().size();
+                        count += directReportEmployee.getDirectReports().stream().mapToInt(otherEmployee -> getReportsFromEmployeeId(otherEmployee.getEmployeeId())).sum();
+                    }
+
+                }
+                count += employee.getDirectReports().size();
+            }
+
+            return count;
         } else return 0;
     }
 }

@@ -25,7 +25,7 @@ public class EmployeeController {
     public Employee read(@PathVariable String id) {
         LOG.debug("Received employee create request for id [{}]", id);
 
-        return employeeService.read(id);
+        return employeeService.findById(id);
     }
 
     @PutMapping("/employee/{id}")

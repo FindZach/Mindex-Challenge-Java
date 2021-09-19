@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Zach S <zach@findzach.com>
@@ -31,16 +32,56 @@ public class CompensationServiceImpl implements CompensationService {
     }
 
     @Override
+    public Set<Compensation> findAll() {
+        return Set.copyOf(compensationRepository.findAll());
+    }
+
+    @Override
+    public Compensation findById(String id) {
+        return compensationRepository.findById(id).isPresent() ? compensationRepository.findById(id).get() : null;
+    }
+
+    @Override
     public Compensation create(Compensation compensation) {
-        if (employeeService.read(compensation.getEmployeeId()) != null) {
+        if (employeeService.findById(compensation.getEmployeeId()) != null) {
             LOG.info("Setting compensation for employeeId: " + compensation.getEmployeeId());
-            return compensationRepository.insert(compensation);
+            return compensationRepository.save(compensation);
         }
+        //Not a valid employee
         return null;
     }
 
     @Override
-    public List<Compensation> read(String employeeId) {
+    public void delete(Compensation object) {
+        compensationRepository.delete(object);
+    }
+
+    @Override
+    public Compensation updateWithId(String id, Compensation object) {
+        if (compensationRepository.findById(id).isPresent()) {
+            return compensationRepository.save(object);
+        } else return null;
+    }
+
+    @Override
+    public Compensation update(Compensation object) {
+        return compensationRepository.save(object);
+    }
+
+    /**
+     * Deletes Object , finds with ID
+     *
+     * @param id - The ID of the Compensation object
+     * @return - True if deleted, false if no record exists
+     */
+    @Override
+    public boolean deleteById(String id) {
+        compensationRepository.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public List<Compensation> getCompensationHistory(String employeeId) {
         List<Compensation> compensations = compensationRepository.findByEmployeeId(employeeId);
         //if list is > 1 we will sort by date before returning
         if (compensations.size() > 1) {

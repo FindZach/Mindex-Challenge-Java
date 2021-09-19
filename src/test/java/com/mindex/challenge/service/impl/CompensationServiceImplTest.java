@@ -53,8 +53,10 @@ public class CompensationServiceImplTest {
 
         Compensation savedCompensation = restTemplate.postForEntity(compensationPostUrl, compensation, Compensation.class).getBody();
 
-        assertNotNull(savedCompensation); //Verifying we're getting our obj back when we post
+        assertNotNull(savedCompensation); //Verifying we're getting our obj returned when we post
+
         assertEquals(100_000, savedCompensation.getSalary(), 0);
+
         assertEquals(employeeId, savedCompensation.getEmployeeId());
 
         Compensation loadedComp = restTemplate.getForEntity(compensationDataUrl, Compensation.class, employeeId).getBody();

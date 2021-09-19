@@ -12,6 +12,30 @@
     ]
   },
   {
+    "employeeId" : "16a596ae-edd3-4847-99fe-3123123",
+    "firstName" : "Cody",
+    "lastName" : "Smith",
+    "position" : "Developer I",
+    "department" : "Engineering",
+    "directReports" : [
+      {
+        "employeeId" : "16a596ae-edd3-4847-99fe-c4518e82c76f"
+      }
+    ]
+  },
+  {
+    "employeeId" : "16a596ae-edd3-4847-99fe-55512341",
+    "firstName" : "Dave",
+    "lastName" : "Smith",
+    "position" : "Developer I",
+    "department" : "Engineering",
+    "directReports" : [
+      {
+        "employeeId" : "16a596ae-edd3-4847-99fe-3123123"
+      }
+    ]
+  },
+  {
     "employeeId" : "16a596ae-edd3-4847-99fe-c4518e82c86f",
     "firstName" : "John",
     "lastName" : "Lennon",

@@ -16,6 +16,11 @@ public interface ReportStructureService {
      */
     ReportingStructure retrieve(String employeeId);
 
+    /**
+     * A method that calculates the total reports
+     * @param employee - The Employee
+     * @return - The total amount of people that are in your ReportStructure
+     */
     int calculateTotalReports(Employee employee);
 
 }

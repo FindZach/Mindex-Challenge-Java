@@ -8,7 +8,6 @@ import java.util.List;
  * @author Zach <zach@findzach.com>
  * @since 9/15/2021
  */
-public interface CompensationService {
-    Compensation create(Compensation compensation);
-    List<Compensation> read(String id);
+public interface CompensationService extends CrudService<Compensation, String>{
+    List<Compensation> getCompensationHistory(String employeeId);
 }
