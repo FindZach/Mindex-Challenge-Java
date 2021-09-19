@@ -22,9 +22,9 @@ public class CompensationController {
     private CompensationService compensationService;
 
     /**
-     * Our Service Layer sorts our CompensationList by date, latest is index 0
+     * Service Layer sorts CompensationList by date, latest is index 0
      * @param employeeId - The ID of the Employee
-     * @return - Returns the latest Compensation details
+     * @return Returns the latest Compensation details
      */
     @GetMapping("/employee/{employeeId}/compensation")
     public Compensation retrieveLatestCompensation(@PathVariable String employeeId) {

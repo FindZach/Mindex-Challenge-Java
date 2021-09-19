@@ -22,6 +22,11 @@ public class ReportStructureController {
     private ReportStructureService reportStructureService;
 
 
+    /**
+     * Works with ReportStructureService to create a ReportStructure
+     * @param employeeId The ID of the Employee
+     * @return Returns filled ReportingStructure object
+     */
     @GetMapping("employee/{employeeId}/reportstructure")
     public ReportingStructure retrieveReportStructure(@PathVariable String employeeId) {
         LOG.debug("Received ReportStructure request for [{}]", employeeId);

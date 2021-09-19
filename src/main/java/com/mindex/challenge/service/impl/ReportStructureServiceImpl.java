@@ -44,6 +44,11 @@ public class ReportStructureServiceImpl implements ReportStructureService {
 
     }
 
+    /**
+     * Calculates the employees DirectReports
+     * @param employee - The Employee
+     * @return The total number of DirectReports the Employee has
+     */
     @Override
     public int calculateTotalReports(Employee employee) {
         if (employee != null) {

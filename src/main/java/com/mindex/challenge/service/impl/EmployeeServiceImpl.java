@@ -28,6 +28,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findById(String id) {
+        LOG.debug("Finding employee with ID [{}]", id);
+
         return employeeRepository.findByEmployeeId(id);
     }
 
@@ -74,8 +76,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean deleteById(String id) {
         if (employeeRepository.findByEmployeeId(id) != null) {
+            LOG.debug("Deleting Employee with ID [{}]", id);
+
             employeeRepository.deleteById(id);
             return true;
-        } else return false;
+        } else {
+            LOG.debug("Unable to delete Employee(Invalid ID) with ID [{}]", id);
+
+            return false;
+        }
     }
 }
