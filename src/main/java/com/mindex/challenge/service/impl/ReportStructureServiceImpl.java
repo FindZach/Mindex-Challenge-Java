@@ -16,12 +16,10 @@ public class ReportStructureServiceImpl implements ReportStructureService {
 
     private EmployeeService employeeService;
 
-
     @Autowired
     public ReportStructureServiceImpl(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-
 
     /**
      * Formulates a ReportStructure based off the employeeId
@@ -41,7 +39,6 @@ public class ReportStructureServiceImpl implements ReportStructureService {
         //Call the method that calculates the total the employee has
         reportingStructure.setNumberOfReports(calculateTotalReports(employee));
         return reportingStructure;
-
     }
 
     /**
@@ -63,10 +60,10 @@ public class ReportStructureServiceImpl implements ReportStructureService {
     }
 
     /**
-     * Simple helper method to verify if the employee object has a valid DirectReport list
+     * A helper method to verify if the employee object has a valid DirectReport list
      *
-     * @param employee
-     * @return
+     * @param employee The Employee in Question
+     * @return Returns true if Employee has directReports, false if not
      */
     private boolean directReportsExist(Employee employee) {
         return employee.getDirectReports() != null;
@@ -75,7 +72,7 @@ public class ReportStructureServiceImpl implements ReportStructureService {
     /**
      * A helper method to retrieve the Employee and check if it has directReports
      *
-     * @return
+     * @return Returns the total Reports from the Employee
      */
     private int getReportsFromEmployeeId(String employeeId) {
         Employee employee = employeeService.findById(employeeId);
